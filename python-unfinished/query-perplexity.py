@@ -3,6 +3,7 @@ import sys
 import asyncio
 from camoufox.async_api import AsyncCamoufox
 
+
 async def main():
     prompt = sys.argv[1]
 
@@ -14,7 +15,7 @@ async def main():
         await page.locator('#ask-input').fill(prompt)
         await page.get_by_role('button', name='Submit').click()
 
-        # Retry toutes les 5s, max 2 min
+        # Retry every 5s, max 2 min.
         copy_btn = page.get_by_role('button', name='Copy', exact=True).last
         deadline = asyncio.get_event_loop().time() + 120
         while asyncio.get_event_loop().time() < deadline:
@@ -27,5 +28,6 @@ async def main():
 
         text = await page.evaluate("async () => await navigator.clipboard.readText()")
         print(text)
+
 
 asyncio.run(main())

@@ -1,8 +1,26 @@
-
-# Playwright
+# Dependencies
 node_modules/
+venv/
+.venv/
+
+# IDE/editor
+.idea/
+.vscode/
+.DS_Store
+
+# Playwright/browser artifacts
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+chrome-profile/
+user-data-dir/
+
+# Generated outputs
+result.md
+*.log
+
+# Environment
+.env
+.env.*
