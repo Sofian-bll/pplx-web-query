@@ -1,6 +1,6 @@
 # Perplexity WebUI Search
 
-Small Node.js helper for querying Perplexity through the browser UI with Playwright.
+Portable Agent Skill for querying Perplexity through the browser UI with Playwright.
 
 ## Install
 
@@ -16,6 +16,16 @@ npm run search -- "Explain browser automation detection" ./result.md
 ```
 
 The script writes the copied Perplexity answer to `result.md` by default and also prints the answer to stdout.
+
+## Agent Skill
+
+`SKILL.md` follows the Agent Skills directory format and can be used by compatible agents. OpenCode users can test it through the project-local adapter in `.opencode/skills/perplexity-webui-search/`.
+
+## References
+
+- `references/install-opencode.md`
+- `references/install-claude.md`
+- `references/troubleshooting.md`
 
 ## Limitations
 

@@ -1,0 +1,19 @@
+{
+  "name": "perplexity-webui-search",
+  "version": "0.1.0",
+  "description": "Agent skill helper that queries Perplexity through the web UI with Playwright.",
+  "license": "MIT",
+  "author": "Sofian-bll",
+  "type": "commonjs",
+  "bin": {
+    "perplexity-webui-search": "scripts/perplexity-query.js"
+  },
+  "scripts": {
+    "search": "node scripts/perplexity-query.js",
+    "check": "node --check scripts/perplexity-query.js",
+    "pack:dry-run": "npm pack --dry-run"
+  },
+  "dependencies": {
+    "playwright": "^1.59.1"
+  }
+}

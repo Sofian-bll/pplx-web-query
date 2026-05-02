@@ -8,7 +8,7 @@ const prompt = process.argv[2];
 const outputPath = process.argv[3] ?? 'result.md';
 
 if (!prompt) {
-  console.error('Usage: node bin/perplexity-query.js "<query>" [output-path]');
+  console.error('Usage: node scripts/perplexity-query.js "<query>" [output-path]');
   process.exit(1);
 }
 
