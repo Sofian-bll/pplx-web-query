@@ -19,7 +19,7 @@ The script writes the copied Perplexity answer to `result.md` by default and als
 
 ## Agent Skill
 
-`SKILL.md` follows the Agent Skills directory format and can be used by compatible agents. OpenCode users can test it through the project-local adapter in `.opencode/skills/perplexity-webui-search/`.
+`SKILL.md` follows the Agent Skills directory format and can be used by compatible agents. Install this directory into your agent's skills path, or use `npx skills add` from the repository root.
 
 ## References
 

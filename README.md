@@ -28,13 +28,10 @@ The command opens Chromium, sends the prompt to Perplexity, writes the copied an
 ## Project Structure
 
 ```text
-.opencode/
-  skills/
-    perplexity-webui-search/
-      SKILL.md
 skills/
   perplexity-webui-search/
     references/
+      install-codex.md
       install-claude.md
       install-opencode.md
       troubleshooting.md
@@ -53,15 +50,39 @@ LICENSE
 README.md
 ```
 
-## OpenCode Testing
+## OpenCode
 
-This repo includes a project-local OpenCode adapter in `.opencode/skills/perplexity-webui-search/`. Start OpenCode from the repository root and ask:
+Install from the repository root:
+
+```bash
+npx skills add ./skills --skill perplexity-webui-search --agent opencode --copy
+```
+
+Or copy `skills/perplexity-webui-search/` into an OpenCode skills discovery path such as:
+
+```text
+~/.config/opencode/skills/perplexity-webui-search/
+```
+
+After installation, start OpenCode and ask:
 
 ```text
 Use the perplexity-webui-search skill to search Perplexity for "latest Playwright release notes" and summarize the result.
 ```
 
-The adapter points OpenCode to the canonical skill in `skills/perplexity-webui-search/`.
+## Codex
+
+Install from the repository root:
+
+```bash
+npx skills add ./skills --skill perplexity-webui-search --agent codex --copy
+```
+
+Or copy `skills/perplexity-webui-search/` into:
+
+```text
+${CODEX_HOME:-$HOME/.codex}/skills/perplexity-webui-search/
+```
 
 ## Claude And Other Agents
 
@@ -73,7 +94,8 @@ Copy the full `skills/perplexity-webui-search/` directory into the skills direct
 |----------|-------------|
 | [`skills/perplexity-webui-search/SKILL.md`](skills/perplexity-webui-search/SKILL.md) | Canonical Agent Skill instructions. |
 | [`skills/perplexity-webui-search/README.md`](skills/perplexity-webui-search/README.md) | JavaScript package usage. |
-| [`skills/perplexity-webui-search/references/install-opencode.md`](skills/perplexity-webui-search/references/install-opencode.md) | OpenCode installation and local testing. |
+| [`skills/perplexity-webui-search/references/install-opencode.md`](skills/perplexity-webui-search/references/install-opencode.md) | OpenCode installation and testing. |
+| [`skills/perplexity-webui-search/references/install-codex.md`](skills/perplexity-webui-search/references/install-codex.md) | Codex installation and testing. |
 | [`skills/perplexity-webui-search/references/install-claude.md`](skills/perplexity-webui-search/references/install-claude.md) | Claude-compatible installation notes. |
 | [`skills/perplexity-webui-search/references/troubleshooting.md`](skills/perplexity-webui-search/references/troubleshooting.md) | Runtime failure modes and fixes. |
 | [`python-unfinished/README.md`](python-unfinished/README.md) | Status of the unfinished Python prototype. |

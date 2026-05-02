@@ -5,6 +5,13 @@
   "license": "MIT",
   "author": "Sofian-bll",
   "type": "commonjs",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "SKILL.md",
+    "scripts/",
+    "references/"
+  ],
   "bin": {
     "perplexity-webui-search": "scripts/perplexity-query.js"
   },
