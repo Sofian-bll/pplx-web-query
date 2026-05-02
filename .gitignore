@@ -19,6 +19,7 @@ user-data-dir/
 
 # Generated outputs
 result.md
+tmp/
 *.log
 
 # Environment

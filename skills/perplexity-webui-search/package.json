@@ -4,12 +4,14 @@
   "description": "Agent skill helper that queries Perplexity through the web UI with Playwright.",
   "license": "MIT",
   "author": "Sofian-bll",
-  "type": "commonjs",
+  "type": "module",
   "files": [
     "LICENSE",
     "README.md",
     "SKILL.md",
-    "scripts/",
+    "scripts/perplexity-core.js",
+    "scripts/perplexity-core.test.mjs",
+    "scripts/perplexity-query.js",
     "references/"
   ],
   "bin": {
@@ -17,8 +19,12 @@
   },
   "scripts": {
     "search": "node scripts/perplexity-query.js",
-    "check": "node --check scripts/perplexity-query.js",
+    "test": "node --test",
+    "check": "node --check scripts/perplexity-query.js && node --check scripts/perplexity-core.js",
     "pack:dry-run": "npm pack --dry-run"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "dependencies": {
     "playwright": "^1.59.1"

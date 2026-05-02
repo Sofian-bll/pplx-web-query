@@ -12,7 +12,7 @@ Universal Agent Skill for querying Perplexity through the web UI with Playwright
 
 This repository packages a portable Agent Skill that opens Perplexity in Chromium, submits a query, copies the generated answer, and writes it to Markdown. It is useful when an agent needs a browser-based Perplexity search path instead of repeated webpage fetches.
 
-The canonical skill lives in `skills/perplexity-webui-search/`. The Python version is preserved as an unfinished prototype only.
+The canonical skill lives in `skills/perplexity-webui-search/`.
 
 ## Quick Start
 
@@ -36,15 +36,14 @@ skills/
       install-opencode.md
       troubleshooting.md
     scripts/
+      perplexity-core.js
+      perplexity-core.test.mjs
       perplexity-query.js
     LICENSE
     README.md
     SKILL.md
     package.json
     package-lock.json
-python-unfinished/
-  README.md
-  query-perplexity.py
 .gitignore
 LICENSE
 README.md
@@ -98,14 +97,23 @@ Copy the full `skills/perplexity-webui-search/` directory into the skills direct
 | [`skills/perplexity-webui-search/references/install-codex.md`](skills/perplexity-webui-search/references/install-codex.md) | Codex installation and testing. |
 | [`skills/perplexity-webui-search/references/install-claude.md`](skills/perplexity-webui-search/references/install-claude.md) | Claude-compatible installation notes. |
 | [`skills/perplexity-webui-search/references/troubleshooting.md`](skills/perplexity-webui-search/references/troubleshooting.md) | Runtime failure modes and fixes. |
-| [`python-unfinished/README.md`](python-unfinished/README.md) | Status of the unfinished Python prototype. |
+| [`skills/perplexity-webui-search/scripts/perplexity-core.test.mjs`](skills/perplexity-webui-search/scripts/perplexity-core.test.mjs) | Local regression tests for CLI parsing and retry behavior. |
 
 ## Limitations
 
 - This uses the Perplexity web UI, not an official API.
 - Chromium runs visibly with `headless: false` because the site can be sensitive to automation.
 - Selectors may need updates if Perplexity changes its UI.
-- The Python prototype is intentionally not treated as a supported implementation.
+
+## Checks
+
+Run from `skills/perplexity-webui-search/`:
+
+```bash
+npm test
+npm run check
+npm run pack:dry-run
+```
 
 ## License
 

@@ -1,64 +1,20 @@
 #!/usr/bin/env node
 
-const { chromium } = require('playwright');
-const fs = require('node:fs/promises');
-const path = require('node:path');
+import { chromium } from 'playwright';
 
-const prompt = process.argv[2];
-const outputPath = process.argv[3] ?? 'result.md';
+import { createLogger, parseArgs, runPerplexityQuery } from './perplexity-core.js';
 
-if (!prompt) {
-  console.error('Usage: node scripts/perplexity-query.js "<query>" [output-path]');
-  process.exit(1);
-}
-
-(async () => {
-  const browser = await chromium.launch({
-    headless: false,
-    args: ['--disable-blink-features=AutomationControlled'],
+try {
+  const { prompt, outputPath } = parseArgs(process.argv.slice(2));
+  const text = await runPerplexityQuery({
+    chromium,
+    prompt,
+    outputPath,
+    logger: createLogger(),
   });
 
-  const context = await browser.newContext();
-  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-  const page = await context.newPage();
-
-  try {
-    await page.goto('https://www.perplexity.ai/');
-    await page.locator('#ask-input').click();
-    await page.locator('#ask-input').fill(prompt);
-    await page.getByRole('button', { name: 'Submit' }).click();
-
-    const copyButton = page.getByRole('button', { name: 'Copy', exact: true }).last();
-    const deadline = Date.now() + 120_000;
-    let foundCopyButton = false;
-
-    while (Date.now() < deadline) {
-      const visible = await copyButton.isVisible().catch(() => false);
-      if (visible) {
-        foundCopyButton = true;
-        break;
-      }
-      await page.waitForTimeout(5000);
-    }
-
-    if (!foundCopyButton) {
-      throw new Error('Timed out waiting for Perplexity copy button.');
-    }
-
-    await page.waitForTimeout(1500);
-    await copyButton.click();
-
-    const text = await page.evaluate(async () => navigator.clipboard.readText());
-    if (!text) {
-      throw new Error('Perplexity copied an empty response.');
-    }
-
-    await fs.mkdir(path.dirname(outputPath), { recursive: true });
-    await fs.writeFile(outputPath, text, 'utf8');
-
-    console.log(text);
-  } finally {
-    await context.close();
-    await browser.close();
-  }
-})();
+  console.log(text);
+} catch (error) {
+  console.error(error.message);
+  process.exitCode = 1;
+}
