@@ -18,7 +18,9 @@
   A portable Agent Skill that queries Perplexity through its web UI using Playwright browser automation — no API key required.
 </p>
 
-> [Read in English](README.md) | [Lire en Français](README.fr.md)
+<p align="center">
+  🇬🇧 English | <a href="README.fr.md">🇫🇷 Français</a>
+</p>
 
 <details open>
 <summary>Table of Contents</summary>

@@ -18,7 +18,9 @@
   Une Agent Skill portable qui interroge Perplexity via son interface web avec Playwright — sans clé API.
 </p>
 
-> [Read in English](README.md) | [Lire en Français](README.fr.md)
+<p align="center">
+  <a href="README.md">🇬🇧 English</a> | 🇫🇷 Français
+</p>
 
 <details open>
 <summary>Table des matières</summary>
