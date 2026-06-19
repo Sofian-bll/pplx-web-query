@@ -1,18 +1,85 @@
 <div align="center">
 
-# Perplexity WebUI Search Skill
+<a id="readme-top"></a>
 
-Universal Agent Skill for querying Perplexity through the web UI with Playwright.
+<p align="center">
+  <img src="docs/assets/logo.png" alt="Perplexity WebUI Search" width="160"/>
+</p>
 
-![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
+[![License: MIT](https://img.shields.io/github/license/Sofian-bll/pplx-web-query?style=flat)](https://github.com/Sofian-bll/pplx-web-query/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/Sofian-bll/pplx-web-query?style=flat)](https://github.com/Sofian-bll/pplx-web-query/releases)
+[![Stars](https://img.shields.io/github/stars/Sofian-bll/pplx-web-query?style=flat)](https://github.com/Sofian-bll/pplx-web-query/stargazers)
 
 </div>
 
+<h1 align="center">Perplexity WebUI Search</h1>
+
+<p align="center">
+  A portable Agent Skill that queries Perplexity through its web UI using Playwright browser automation — no API key required.
+</p>
+
+> [Read in English](README.md) | [Lire en Français](README.fr.md)
+
+<details open>
+<summary>Table of Contents</summary>
+
+- [What is this?](#what-is-this)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [How It Works](#how-it-works)
+- [Quick Start](#quick-start)
+- [Usage](#usage)
+- [Output Format](#output-format)
+- [Project Structure](#project-structure)
+- [Built With](#built-with)
+- [Contributing](#contributing)
+- [License](#license)
+
+</details>
+
 ## What is this?
 
-This repository packages a portable Agent Skill that opens Perplexity in Chromium, submits a query, copies the generated answer, and writes it to Markdown. It is useful when an agent needs a browser-based Perplexity search path instead of repeated webpage fetches.
+A universal Agent Skill that lets any AI coding agent (OpenCode, Claude Code, Codex CLI) perform web searches through Perplexity's interface. It opens Chromium, navigates to perplexity.ai, submits a query, captures the generated answer, and writes it to a Markdown file.
 
-The canonical skill lives in `skills/perplexity-webui-search/`.
+No API key. No subscription. Just browser automation.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Features
+
+- **Browser automation** — Launches Chromium, navigates Perplexity, submits queries
+- **Answer extraction** — Clicks "Copy" on the generated response, reads the clipboard
+- **Retry logic** — Handles empty clipboard, slow responses, and transient failures (3 retries)
+- **Markdown output** — Saves answers to `.md` files with clean formatting
+- **Multi-agent support** — Works with OpenCode, Claude Code, and Codex CLI out of the box
+- **Progress logging** — Stderr for logs, stdout for clean output — pipe-friendly
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) >= 18
+- Chromium browsers for Playwright
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## How It Works
+
+```mermaid
+flowchart TD
+    A[Launch Chromium] --> B[Navigate to perplexity.ai]
+    B --> C[Type query in search input]
+    C --> D[Submit and wait for answer]
+    D --> E[Click Copy button]
+    E --> F[Read clipboard]
+    F --> G{Clipboard empty?}
+    G -->|Yes| H[Retry up to 3 times]
+    H --> E
+    G -->|No| I[Write answer to .md file]
+    I --> J[Print to stdout]
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Quick Start
 
@@ -20,101 +87,134 @@ The canonical skill lives in `skills/perplexity-webui-search/`.
 cd skills/perplexity-webui-search
 npm install
 npx playwright install chromium
-npm run search -- "What are the latest Playwright browser automation changes?" ./result.md
+npm run search -- "What are the latest Playwright changes?" ./result.md
 ```
 
-The command opens Chromium, sends the prompt to Perplexity, writes the copied answer to `result.md`, and prints the answer to stdout.
+The command opens Chromium, sends the prompt to Perplexity, copies the answer, saves it to `result.md`, and prints it to stdout.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Usage
+
+### As an Agent Skill
+
+Install into your agent's skill directory:
+
+**OpenCode:**
+
+```bash
+npx skills add ./skills --skill perplexity-webui-search --agent opencode --copy
+```
+
+Or copy `skills/perplexity-webui-search/` into `~/.config/opencode/skills/`.
+
+**Codex CLI:**
+
+```bash
+npx skills add ./skills --skill perplexity-webui-search --agent codex --copy
+```
+
+**Claude Code and others:**
+
+Copy `skills/perplexity-webui-search/` into your agent's skills directory.
+
+### Direct CLI
+
+From the skill directory:
+
+```bash
+node scripts/perplexity-query.js "your query here" ./output.md
+```
+
+### Checks
+
+```bash
+npm test              # Run unit tests
+npm run check         # Syntax validation
+npm run pack:dry-run  # Verify publish-ready package
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Output Format
+
+Answers are saved as plain Markdown with preserved formatting from Perplexity. The clipboard content is written verbatim to the output file.
+
+```bash
+npm run search -- "What is Rust?" ./rust-overview.md
+# → rust-overview.md contains the full Perplexity answer
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Project Structure
 
 ```text
 skills/
   perplexity-webui-search/
+    scripts/
+      perplexity-core.js         # Core: args, retry, Playwright automation
+      perplexity-core.test.mjs   # Unit tests
+      perplexity-query.js         # CLI entry point
     references/
+      install-opencode.md
       install-codex.md
       install-claude.md
-      install-opencode.md
       troubleshooting.md
-    scripts/
-      perplexity-core.js
-      perplexity-core.test.mjs
-      perplexity-query.js
     LICENSE
     README.md
     SKILL.md
     package.json
-    package-lock.json
+docs/
+  assets/
+    logo.png
+.env
 .gitignore
 LICENSE
 README.md
+README.fr.md
 ```
 
-## OpenCode
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Install from the repository root:
+## Built With
 
-```bash
-npx skills add ./skills --skill perplexity-webui-search --agent opencode --copy
-```
+![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=flat&logo=node.js&logoColor=white)
+![Playwright](https://img.shields.io/badge/playwright-%2345ba4b?style=flat&logo=playwright&logoColor=white)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=flat&logo=git&logoColor=white)
 
-Or copy `skills/perplexity-webui-search/` into an OpenCode skills discovery path such as:
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-```text
-~/.config/opencode/skills/perplexity-webui-search/
-```
+## Contributing
 
-After installation, start OpenCode and ask:
+Contributions are welcome. This is a public project — fork, branch, and open a PR.
 
-```text
-Use the perplexity-webui-search skill to search Perplexity for "latest Playwright release notes" and summarize the result.
-```
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feat/amazing-feature`)
+3. Commit your changes (`git commit -m "feat: add amazing feature"`)
+4. Push to the branch (`git push origin feat/amazing-feature`)
+5. Open a Pull Request
 
-## Codex
+<a href="https://github.com/Sofian-bll/pplx-web-query/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Sofian-bll/pplx-web-query" />
+</a>
 
-Install from the repository root:
-
-```bash
-npx skills add ./skills --skill perplexity-webui-search --agent codex --copy
-```
-
-Or copy `skills/perplexity-webui-search/` into:
-
-```text
-${CODEX_HOME:-$HOME/.codex}/skills/perplexity-webui-search/
-```
-
-## Claude And Other Agents
-
-Copy the full `skills/perplexity-webui-search/` directory into the skills directory used by your agent runtime. The skill follows the Agent Skills layout with `SKILL.md`, `scripts/`, and `references/`.
-
-## Documentation
-
-| Resource | Description |
-|----------|-------------|
-| [`skills/perplexity-webui-search/SKILL.md`](skills/perplexity-webui-search/SKILL.md) | Canonical Agent Skill instructions. |
-| [`skills/perplexity-webui-search/README.md`](skills/perplexity-webui-search/README.md) | JavaScript package usage. |
-| [`skills/perplexity-webui-search/references/install-opencode.md`](skills/perplexity-webui-search/references/install-opencode.md) | OpenCode installation and testing. |
-| [`skills/perplexity-webui-search/references/install-codex.md`](skills/perplexity-webui-search/references/install-codex.md) | Codex installation and testing. |
-| [`skills/perplexity-webui-search/references/install-claude.md`](skills/perplexity-webui-search/references/install-claude.md) | Claude-compatible installation notes. |
-| [`skills/perplexity-webui-search/references/troubleshooting.md`](skills/perplexity-webui-search/references/troubleshooting.md) | Runtime failure modes and fixes. |
-| [`skills/perplexity-webui-search/scripts/perplexity-core.test.mjs`](skills/perplexity-webui-search/scripts/perplexity-core.test.mjs) | Local regression tests for CLI parsing and retry behavior. |
-
-## Limitations
-
-- This uses the Perplexity web UI, not an official API.
-- Chromium runs visibly with `headless: false` because the site can be sensitive to automation.
-- Selectors may need updates if Perplexity changes its UI.
-
-## Checks
-
-Run from `skills/perplexity-webui-search/`:
-
-```bash
-npm test
-npm run check
-npm run pack:dry-run
-```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## License
 
-MIT License. See [`LICENSE`](LICENSE).
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+<div align="center">
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Sofian-bll/pplx-web-query&type=Date)](https://star-history.com/#Sofian-bll/pplx-web-query&Date)
+
+</div>
+
+<!-- REFERENCE_LINKS -->
+[node.js]: https://nodejs.org/
+[playwright]: https://playwright.dev/
