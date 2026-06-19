@@ -25,7 +25,6 @@
 
 - [What is this?](#what-is-this)
 - [Features](#features)
-- [How It Works](#how-it-works)
 - [Built With](#built-with)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
@@ -52,24 +51,6 @@ No API key. No subscription. Just browser automation.
 - **Markdown output** — Saves answers as `.md` files preserving Perplexity's formatting
 - **Multi-agent** — Works with OpenCode, Claude Code, and Codex CLI out of the box
 - **Clean I/O** — Stderr for logs, stdout for output — pipe-friendly
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## How It Works
-
-```mermaid
-flowchart TD
-    A[Launch Chromium] --> B[Navigate to perplexity.ai]
-    B --> C[Type query in search input]
-    C --> D[Submit and wait for answer]
-    D --> E[Click Copy button]
-    E --> F[Read clipboard]
-    F --> G{Clipboard empty?}
-    G -->|Yes| H[Retry up to 3 times]
-    H --> E
-    G -->|No| I[Write answer to .md file]
-    I --> J[Print to stdout]
-```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
