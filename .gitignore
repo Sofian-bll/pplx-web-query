@@ -3,6 +3,9 @@ node_modules/
 venv/
 .venv/
 
+# Unfinished/experimental
+python-unfinished/
+
 # IDE/editor
 .idea/
 .vscode/
