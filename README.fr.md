@@ -6,16 +6,16 @@
   <img src="docs/assets/logo.png" alt="Perplexity WebUI Search" width="160"/>
 </p>
 
-[![License: MIT](https://img.shields.io/github/license/Sofian-bll/pplx-web-query?style=flat)](https://github.com/Sofian-bll/pplx-web-query/blob/main/LICENSE)
-[![Release](https://img.shields.io/github/v/release/Sofian-bll/pplx-web-query?style=flat)](https://github.com/Sofian-bll/pplx-web-query/releases)
-[![Stars](https://img.shields.io/github/stars/Sofian-bll/pplx-web-query?style=flat)](https://github.com/Sofian-bll/pplx-web-query/stargazers)
+[![Licence][license-shield]][license-url]
+[![Version][release-shield]][release-url]
+[![Stars][stars-shield]][stars-url]
 
 </div>
 
 <h1 align="center">Perplexity WebUI Search</h1>
 
 <p align="center">
-  Une Agent Skill portable qui interroge Perplexity via son interface web en utilisant l'automatisation Playwright — sans clé API.
+  Une Agent Skill portable qui interroge Perplexity via son interface web avec Playwright — sans clé API.
 </p>
 
 > [Read in English](README.md) | [Lire en Français](README.fr.md)
@@ -25,13 +25,12 @@
 
 - [C'est quoi ?](#cest-quoi-)
 - [Fonctionnalités](#fonctionnalités)
-- [Prérequis](#prérequis)
 - [Comment ça marche](#comment-ça-marche)
+- [Technologies](#technologies)
 - [Démarrage rapide](#démarrage-rapide)
 - [Utilisation](#utilisation)
-- [Format de sortie](#format-de-sortie)
 - [Structure du projet](#structure-du-projet)
-- [Technologies](#technologies)
+- [Documentation](#documentation)
 - [Contribuer](#contribuer)
 - [Licence](#licence)
 
@@ -39,7 +38,7 @@
 
 ## C'est quoi ?
 
-Une Agent Skill universelle qui permet à n'importe quel agent de code IA (OpenCode, Claude Code, Codex CLI) d'effectuer des recherches web via l'interface de Perplexity. Elle ouvre Chromium, navigue vers perplexity.ai, soumet une requête, capture la réponse générée et l'écrit dans un fichier Markdown.
+Une Agent Skill universelle qui permet à n'importe quel agent de code IA — OpenCode, Claude Code, Codex CLI — d'effectuer des recherches web via l'interface de Perplexity. Elle lance Chromium, navigue vers perplexity.ai, soumet une requête, capture la réponse depuis le presse-papier et l'écrit dans un fichier Markdown.
 
 Pas de clé API. Pas d'abonnement. Juste de l'automatisation navigateur.
 
@@ -48,18 +47,11 @@ Pas de clé API. Pas d'abonnement. Juste de l'automatisation navigateur.
 ## Fonctionnalités
 
 - **Automatisation navigateur** — Lance Chromium, navigue sur Perplexity, soumet des requêtes
-- **Extraction des réponses** — Clique sur "Copier" dans la réponse générée, lit le presse-papier
+- **Extraction des réponses** — Clique sur "Copier" dans la réponse, lit le presse-papier
 - **Logique de retry** — Gère les presse-papiers vides, réponses lentes et échecs transitoires (3 tentatives)
-- **Sortie Markdown** — Sauvegarde les réponses en fichiers `.md` avec une mise en forme propre
-- **Support multi-agents** — Fonctionne avec OpenCode, Claude Code et Codex CLI
-- **Logs propres** — Stderr pour les logs, stdout pour la sortie — compatible pipe
-
-<p align="right">(<a href="#readme-top">retour en haut</a>)</p>
-
-## Prérequis
-
-- [Node.js](https://nodejs.org/) >= 18
-- Navigateurs Chromium pour Playwright
+- **Sortie Markdown** — Sauvegarde les réponses en `.md` avec la mise en forme de Perplexity
+- **Multi-agents** — Compatible OpenCode, Claude Code et Codex CLI
+- **I/O propres** — Stderr pour les logs, stdout pour la sortie — compatible pipe
 
 <p align="right">(<a href="#readme-top">retour en haut</a>)</p>
 
@@ -81,7 +73,17 @@ flowchart TD
 
 <p align="right">(<a href="#readme-top">retour en haut</a>)</p>
 
+## Technologies
+
+[![Node.js][nodejs-shield]][nodejs-url]
+[![Playwright][playwright-shield]][playwright-url]
+[![Git][git-shield]][git-url]
+
+<p align="right">(<a href="#readme-top">retour en haut</a>)</p>
+
 ## Démarrage rapide
+
+**Prérequis :** [Node.js][nodejs-url] >= 18 et les navigateurs Chromium.
 
 ```bash
 cd skills/perplexity-webui-search
@@ -120,29 +122,25 @@ Copiez `skills/perplexity-webui-search/` dans le répertoire de skills de votre 
 
 ### CLI directe
 
-Depuis le répertoire du skill :
-
 ```bash
 node scripts/perplexity-query.js "votre requête" ./output.md
+```
+
+### Sortie
+
+Les réponses sont sauvegardées en Markdown brut. La mise en forme de Perplexity est préservée telle quelle.
+
+```bash
+npm run search -- "C'est quoi Rust ?" ./rust-apercu.md
+# → rust-apercu.md contient la réponse complète de Perplexity
 ```
 
 ### Vérifications
 
 ```bash
-npm test              # Lancer les tests unitaires
+npm test              # Tests unitaires
 npm run check         # Validation syntaxique
 npm run pack:dry-run  # Vérifier le package avant publication
-```
-
-<p align="right">(<a href="#readme-top">retour en haut</a>)</p>
-
-## Format de sortie
-
-Les réponses sont sauvegardées en Markdown brut avec la mise en forme préservée de Perplexity. Le contenu du presse-papier est écrit tel quel dans le fichier de sortie.
-
-```bash
-npm run search -- "C'est quoi Rust ?" ./rust-apercu.md
-# → rust-apercu.md contient la réponse complète de Perplexity
 ```
 
 <p align="right">(<a href="#readme-top">retour en haut</a>)</p>
@@ -155,7 +153,7 @@ skills/
     scripts/
       perplexity-core.js         # Cœur : args, retry, automatisation Playwright
       perplexity-core.test.mjs   # Tests unitaires
-      perplexity-query.js         # Point d'entrée CLI
+      perplexity-query.js        # Point d'entrée CLI
     references/
       install-opencode.md
       install-codex.md
@@ -168,7 +166,6 @@ skills/
 docs/
   assets/
     logo.png
-.env
 .gitignore
 LICENSE
 README.md
@@ -177,11 +174,16 @@ README.fr.md
 
 <p align="right">(<a href="#readme-top">retour en haut</a>)</p>
 
-## Technologies
+## Documentation
 
-![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=flat&logo=node.js&logoColor=white)
-![Playwright](https://img.shields.io/badge/playwright-%2345ba4b?style=flat&logo=playwright&logoColor=white)
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=flat&logo=git&logoColor=white)
+| Document | Description |
+|----------|-------------|
+| [Installation — OpenCode](skills/perplexity-webui-search/references/install-opencode.md) | Guide d'installation pour OpenCode |
+| [Installation — Codex CLI](skills/perplexity-webui-search/references/install-codex.md) | Guide d'installation pour Codex CLI |
+| [Installation — Claude Code](skills/perplexity-webui-search/references/install-claude.md) | Guide d'installation pour Claude Code et compatibles |
+| [Dépannage](skills/perplexity-webui-search/references/troubleshooting.md) | Problèmes courants et solutions |
+| [Spécification du Skill](skills/perplexity-webui-search/SKILL.md) | Manifeste et schéma du skill agent |
+| [Tests](skills/perplexity-webui-search/scripts/perplexity-core.test.mjs) | Suite de tests unitaires (parsing, retry, presse-papier) |
 
 <p align="right">(<a href="#readme-top">retour en haut</a>)</p>
 
@@ -191,7 +193,7 @@ Les contributions sont les bienvenues. Ce projet est public — forkez, créez u
 
 1. Forkez le repo
 2. Créez une branche (`git checkout -b feat/fonctionnalite`)
-3. Committez vos changements (`git commit -m "feat: ajout fonctionnalité"`)
+3. Committez (`git commit -m "feat: ajout fonctionnalité"`)
 4. Poussez (`git push origin feat/fonctionnalite`)
 5. Ouvrez une Pull Request
 
@@ -211,10 +213,22 @@ Distribué sous licence MIT. Voir [`LICENSE`](LICENSE) pour plus d'informations.
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Sofian-bll/pplx-web-query&type=Date)](https://star-history.com/#Sofian-bll/pplx-web-query&Date)
+[![Graphique de stars][star-history]][star-history-url]
 
 </div>
 
 <!-- REFERENCE_LINKS -->
-[node.js]: https://nodejs.org/
-[playwright]: https://playwright.dev/
+[license-shield]: https://img.shields.io/github/license/Sofian-bll/pplx-web-query?style=flat
+[license-url]: https://github.com/Sofian-bll/pplx-web-query/blob/main/LICENSE
+[release-shield]: https://img.shields.io/github/v/release/Sofian-bll/pplx-web-query?style=flat
+[release-url]: https://github.com/Sofian-bll/pplx-web-query/releases
+[stars-shield]: https://img.shields.io/github/stars/Sofian-bll/pplx-web-query?style=flat
+[stars-url]: https://github.com/Sofian-bll/pplx-web-query/stargazers
+[nodejs-shield]: https://img.shields.io/badge/node.js-6DA55F?style=flat&logo=node.js&logoColor=white
+[nodejs-url]: https://nodejs.org/
+[playwright-shield]: https://img.shields.io/badge/playwright-%2345ba4b?style=flat&logo=playwright&logoColor=white
+[playwright-url]: https://playwright.dev/
+[git-shield]: https://img.shields.io/badge/git-%23F05033.svg?style=flat&logo=git&logoColor=white
+[git-url]: https://git-scm.com/
+[star-history]: https://api.star-history.com/svg?repos=Sofian-bll/pplx-web-query&type=Date
+[star-history-url]: https://star-history.com/#Sofian-bll/pplx-web-query&Date
