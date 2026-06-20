@@ -1,25 +1,23 @@
 <div align="center">
 
-<a id="readme-top"></a>
+[![Licence][license-shield]][license-url]
+[![Version][release-shield]][release-url]
+[![Stars][stars-shield]][stars-url]
 
 <p align="center">
   <img src="docs/assets/logo.png" alt="Perplexity WebUI Search" width="160"/>
 </p>
 
-[![Licence][license-shield]][license-url]
-[![Version][release-shield]][release-url]
-[![Stars][stars-shield]][stars-url]
-
 </div>
 
-<h1 align="center">Perplexity WebUI Search</h1>
+<h1 align="center" id="readme-top">Perplexity WebUI Search</h1>
 
 <p align="center">
   Une Agent Skill portable qui interroge Perplexity via son interface web avec Playwright — sans clé API.
 </p>
 
 <p align="center">
-  <a href="README.md">🇬🇧 English</a> | 🇫🇷 Français
+  🇬🇧 <a href="README.md">English</a> · 🇫🇷 <a href="README.fr.md"><b>Français</b></a>
 </p>
 
 <details open>
@@ -58,9 +56,9 @@ Pas de clé API. Pas d'abonnement. Juste de l'automatisation navigateur.
 
 ## Technologies
 
-[![Node.js][nodejs-shield]][nodejs-url]
-[![Playwright][playwright-shield]][playwright-url]
-[![Git][git-shield]][git-url]
+- [![Node.js][nodejs-shield]][nodejs-url] — Runtime
+- [![Playwright][playwright-shield]][playwright-url] — Automatisation navigateur
+- [![Git][git-shield]][git-url] — Gestion de versions
 
 <p align="right">(<a href="#readme-top">retour en haut</a>)</p>
 
